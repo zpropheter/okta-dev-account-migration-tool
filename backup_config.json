@@ -1,0 +1,1120 @@
+{
+  "resources": {
+    "Authenticator": {
+      "idField": "id",
+      "tagName": "Authenticator",
+      "cliCommandName": "authenticator",
+      "cliCamelCaseName": "authenticator",
+      "getEndpoint": "getAuthenticatorMethod",
+      "getPath": "/api/v1/authenticators/{authenticatorId}/methods/{methodType}",
+      "getCliCommandName": "get",
+      "children": [
+        {
+          "resourceType": "Authenticator",
+          "listMethod": "listAuthenticatorMethods",
+          "parentParameter": "authenticatorId",
+          "listCliCommandName": "list"
+        }
+      ],
+      "listEndpoint": "listAuthenticatorMethods",
+      "listPath": "/api/v1/authenticators/{authenticatorId}/methods",
+      "listCliCommandName": "list",
+      "requiresIDs": true,
+      "dependsOn": [
+        "Authenticator"
+      ]
+    },
+    "OrgSetting": {
+      "idField": "id",
+      "tagName": "OrgSetting",
+      "cliCommandName": "org-setting",
+      "cliCamelCaseName": "orgSetting",
+      "getEndpoint": "getClientPrivilegesSetting",
+      "getPath": "/api/v1/org/settings/clientPrivilegesSetting",
+      "getCliCommandName": "get",
+      "children": [],
+      "requiresIDs": false
+    },
+    "AgentPools": {
+      "idField": "id",
+      "tagName": "AgentPools",
+      "cliCommandName": "agent-pools",
+      "cliCamelCaseName": "agentPools",
+      "listEndpoint": "listAgentPoolsUpdates",
+      "listPath": "/api/v1/agentPools/{poolId}/updates",
+      "listCliCommandName": "list",
+      "children": [],
+      "getEndpoint": "getAgentPoolsUpdateInstance",
+      "getPath": "/api/v1/agentPools/{poolId}/updates/{updateId}",
+      "getCliCommandName": "get",
+      "requiresIDs": true,
+      "dependsOn": [
+        "Pool"
+      ]
+    },
+    "ApiToken": {
+      "idField": "id",
+      "tagName": "ApiToken",
+      "cliCommandName": "api-token",
+      "cliCamelCaseName": "apiToken",
+      "listEndpoint": "listApiTokens",
+      "listPath": "/api/v1/api-tokens",
+      "listCliCommandName": "list",
+      "children": [],
+      "getEndpoint": "getApiToken",
+      "getPath": "/api/v1/api-tokens/{apiTokenId}",
+      "getCliCommandName": "get",
+      "requiresIDs": false
+    },
+    "Application": {
+      "idField": "id",
+      "tagName": "Application",
+      "cliCommandName": "application",
+      "cliCamelCaseName": "application",
+      "listEndpoint": "listApplications",
+      "listPath": "/api/v1/apps",
+      "listCliCommandName": "list",
+      "children": [],
+      "getEndpoint": "getApplication",
+      "getPath": "/api/v1/apps/{appId}",
+      "getCliCommandName": "get",
+      "requiresIDs": false
+    },
+    "ApplicationConnections": {
+      "idField": "id",
+      "tagName": "ApplicationConnections",
+      "cliCommandName": "application-connections",
+      "cliCamelCaseName": "applicationConnections",
+      "getEndpoint": "getDefaultProvisioningConnectionForApplication",
+      "getPath": "/api/v1/apps/{appId}/connections/default",
+      "getCliCommandName": "get",
+      "children": [],
+      "requiresIDs": false
+    },
+    "ApplicationCredentials": {
+      "idField": "id",
+      "tagName": "ApplicationCredentials",
+      "cliCommandName": "application-credentials",
+      "cliCamelCaseName": "applicationCredentials",
+      "listEndpoint": "listApplicationKeys",
+      "listPath": "/api/v1/apps/{appId}/credentials/keys",
+      "listCliCommandName": "list",
+      "children": [],
+      "getEndpoint": "getApplicationKey",
+      "getPath": "/api/v1/apps/{appId}/credentials/keys/{keyId}",
+      "getCliCommandName": "get",
+      "requiresIDs": true,
+      "dependsOn": [
+        "App"
+      ]
+    },
+    "ApplicationFeatures": {
+      "idField": "id",
+      "tagName": "ApplicationFeatures",
+      "cliCommandName": "application-features",
+      "cliCamelCaseName": "applicationFeatures",
+      "listEndpoint": "listFeaturesForApplication",
+      "listPath": "/api/v1/apps/{appId}/features",
+      "listCliCommandName": "list",
+      "children": [],
+      "getEndpoint": "getFeatureForApplication",
+      "getPath": "/api/v1/apps/{appId}/features/{featureName}",
+      "getCliCommandName": "get",
+      "requiresIDs": true,
+      "dependsOn": [
+        "App"
+      ]
+    },
+    "ApplicationGrants": {
+      "idField": "id",
+      "tagName": "ApplicationGrants",
+      "cliCommandName": "application-grants",
+      "cliCamelCaseName": "applicationGrants",
+      "listEndpoint": "listScopeConsentGrants",
+      "listPath": "/api/v1/apps/{appId}/grants",
+      "listCliCommandName": "list",
+      "children": [],
+      "getEndpoint": "getScopeConsentGrant",
+      "getPath": "/api/v1/apps/{appId}/grants/{grantId}",
+      "getCliCommandName": "get",
+      "requiresIDs": true,
+      "dependsOn": [
+        "App"
+      ]
+    },
+    "ApplicationGroups": {
+      "idField": "id",
+      "tagName": "ApplicationGroups",
+      "cliCommandName": "application-groups",
+      "cliCamelCaseName": "applicationGroups",
+      "listEndpoint": "listApplicationGroupAssignments",
+      "listPath": "/api/v1/apps/{appId}/groups",
+      "listCliCommandName": "list",
+      "children": [],
+      "getEndpoint": "getApplicationGroupAssignment",
+      "getPath": "/api/v1/apps/{appId}/groups/{groupId}",
+      "getCliCommandName": "get",
+      "requiresIDs": true,
+      "dependsOn": [
+        "App"
+      ]
+    },
+    "ApplicationTokens": {
+      "idField": "id",
+      "tagName": "ApplicationTokens",
+      "cliCommandName": "application-tokens",
+      "cliCamelCaseName": "applicationTokens",
+      "listEndpoint": "listOAuth2TokensForApplication",
+      "listPath": "/api/v1/apps/{appId}/tokens",
+      "listCliCommandName": "list",
+      "children": [],
+      "getEndpoint": "getOAuth2TokenForApplication",
+      "getPath": "/api/v1/apps/{appId}/tokens/{tokenId}",
+      "getCliCommandName": "get",
+      "requiresIDs": true,
+      "dependsOn": [
+        "App"
+      ]
+    },
+    "ApplicationUsers": {
+      "idField": "id",
+      "tagName": "ApplicationUsers",
+      "cliCommandName": "application-users",
+      "cliCamelCaseName": "applicationUsers",
+      "listEndpoint": "listApplicationUsers",
+      "listPath": "/api/v1/apps/{appId}/users",
+      "listCliCommandName": "list",
+      "children": [],
+      "getEndpoint": "getApplicationUser",
+      "getPath": "/api/v1/apps/{appId}/users/{userId}",
+      "getCliCommandName": "get",
+      "requiresIDs": true,
+      "dependsOn": [
+        "App"
+      ]
+    },
+    "AuthorizationServer": {
+      "idField": "id",
+      "tagName": "AuthorizationServer",
+      "cliCommandName": "authorization-server",
+      "cliCamelCaseName": "authorizationServer",
+      "listEndpoint": "listAuthorizationServers",
+      "listPath": "/api/v1/authorizationServers",
+      "listCliCommandName": "list",
+      "children": [
+        {
+          "resourceType": "AuthorizationServerAssoc",
+          "listMethod": "listAssociatedServersByTrustedType",
+          "parentParameter": "authServerId",
+          "listCliCommandName": "list"
+        },
+        {
+          "resourceType": "AuthorizationServerClaims",
+          "listMethod": "listOAuth2Claims",
+          "parentParameter": "authServerId",
+          "listCliCommandName": "list"
+        },
+        {
+          "resourceType": "AuthorizationServerClients",
+          "listMethod": "listOAuth2ClientsForAuthorizationServer",
+          "parentParameter": "authServerId",
+          "listCliCommandName": "list"
+        },
+        {
+          "resourceType": "AuthorizationServerPolicies",
+          "listMethod": "listAuthorizationServerPolicies",
+          "parentParameter": "authServerId",
+          "listCliCommandName": "list"
+        },
+        {
+          "resourceType": "AuthorizationServerRules",
+          "listMethod": "listAuthorizationServerPolicyRules",
+          "parentParameter": "authServerId",
+          "listCliCommandName": "list"
+        },
+        {
+          "resourceType": "AuthorizationServerScopes",
+          "listMethod": "listOAuth2Scopes",
+          "parentParameter": "authServerId",
+          "listCliCommandName": "list"
+        }
+      ],
+      "getEndpoint": "getAuthorizationServer",
+      "getPath": "/api/v1/authorizationServers/{authServerId}",
+      "getCliCommandName": "get",
+      "requiresIDs": false
+    },
+    "AuthorizationServerAssoc": {
+      "idField": "id",
+      "tagName": "AuthorizationServerAssoc",
+      "cliCommandName": "authorization-server-assoc",
+      "cliCamelCaseName": "authorizationServerAssoc",
+      "listEndpoint": "listAssociatedServersByTrustedType",
+      "listPath": "/api/v1/authorizationServers/{authServerId}/associatedServers",
+      "listCliCommandName": "list",
+      "children": [],
+      "requiresIDs": true,
+      "dependsOn": [
+        "AuthServer"
+      ]
+    },
+    "AuthorizationServerClaims": {
+      "idField": "id",
+      "tagName": "AuthorizationServerClaims",
+      "cliCommandName": "authorization-server-claims",
+      "cliCamelCaseName": "authorizationServerClaims",
+      "listEndpoint": "listOAuth2Claims",
+      "listPath": "/api/v1/authorizationServers/{authServerId}/claims",
+      "listCliCommandName": "list",
+      "children": [],
+      "getEndpoint": "getOAuth2Claim",
+      "getPath": "/api/v1/authorizationServers/{authServerId}/claims/{claimId}",
+      "getCliCommandName": "get",
+      "requiresIDs": true,
+      "dependsOn": [
+        "AuthServer"
+      ]
+    },
+    "AuthorizationServerClients": {
+      "idField": "id",
+      "tagName": "AuthorizationServerClients",
+      "cliCommandName": "authorization-server-clients",
+      "cliCamelCaseName": "authorizationServerClients",
+      "listEndpoint": "listRefreshTokensForAuthorizationServerAndClient",
+      "listPath": "/api/v1/authorizationServers/{authServerId}/clients/{clientId}/tokens",
+      "listCliCommandName": "list",
+      "children": [],
+      "getEndpoint": "getRefreshTokenForAuthorizationServerAndClient",
+      "getPath": "/api/v1/authorizationServers/{authServerId}/clients/{clientId}/tokens/{tokenId}",
+      "getCliCommandName": "get",
+      "requiresIDs": true,
+      "dependsOn": [
+        "AuthServer",
+        "Client"
+      ]
+    },
+    "AuthorizationServerPolicies": {
+      "idField": "id",
+      "tagName": "AuthorizationServerPolicies",
+      "cliCommandName": "authorization-server-policies",
+      "cliCamelCaseName": "authorizationServerPolicies",
+      "listEndpoint": "listAuthorizationServerPolicies",
+      "listPath": "/api/v1/authorizationServers/{authServerId}/policies",
+      "listCliCommandName": "list",
+      "children": [],
+      "getEndpoint": "getAuthorizationServerPolicy",
+      "getPath": "/api/v1/authorizationServers/{authServerId}/policies/{policyId}",
+      "getCliCommandName": "get",
+      "requiresIDs": true,
+      "dependsOn": [
+        "AuthServer"
+      ]
+    },
+    "AuthorizationServerRules": {
+      "idField": "id",
+      "tagName": "AuthorizationServerRules",
+      "cliCommandName": "authorization-server-rules",
+      "cliCamelCaseName": "authorizationServerRules",
+      "listEndpoint": "listAuthorizationServerPolicyRules",
+      "listPath": "/api/v1/authorizationServers/{authServerId}/policies/{policyId}/rules",
+      "listCliCommandName": "list",
+      "children": [],
+      "getEndpoint": "getAuthorizationServerPolicyRule",
+      "getPath": "/api/v1/authorizationServers/{authServerId}/policies/{policyId}/rules/{ruleId}",
+      "getCliCommandName": "get",
+      "requiresIDs": true,
+      "dependsOn": [
+        "AuthServer",
+        "Policy"
+      ]
+    },
+    "AuthorizationServerScopes": {
+      "idField": "id",
+      "tagName": "AuthorizationServerScopes",
+      "cliCommandName": "authorization-server-scopes",
+      "cliCamelCaseName": "authorizationServerScopes",
+      "listEndpoint": "listOAuth2Scopes",
+      "listPath": "/api/v1/authorizationServers/{authServerId}/scopes",
+      "listCliCommandName": "list",
+      "children": [],
+      "getEndpoint": "getOAuth2Scope",
+      "getPath": "/api/v1/authorizationServers/{authServerId}/scopes/{scopeId}",
+      "getCliCommandName": "get",
+      "requiresIDs": true,
+      "dependsOn": [
+        "AuthServer"
+      ]
+    },
+    "Behavior": {
+      "idField": "id",
+      "tagName": "Behavior",
+      "cliCommandName": "behavior",
+      "cliCamelCaseName": "behavior",
+      "listEndpoint": "listBehaviorDetectionRules",
+      "listPath": "/api/v1/behaviors",
+      "listCliCommandName": "list",
+      "children": [],
+      "getEndpoint": "getBehaviorDetectionRule",
+      "getPath": "/api/v1/behaviors/{behaviorId}",
+      "getCliCommandName": "get",
+      "requiresIDs": false
+    },
+    "Customization": {
+      "idField": "id",
+      "tagName": "Customization",
+      "cliCommandName": "customization",
+      "cliCamelCaseName": "customization",
+      "listEndpoint": "listBrandThemes",
+      "listPath": "/api/v1/brands/{brandId}/themes",
+      "listCliCommandName": "list",
+      "children": [],
+      "getEndpoint": "getBrandTheme",
+      "getPath": "/api/v1/brands/{brandId}/themes/{themeId}",
+      "getCliCommandName": "get",
+      "requiresIDs": true,
+      "dependsOn": [
+        "Brand"
+      ]
+    },
+    "CAPTCHA": {
+      "idField": "id",
+      "tagName": "CAPTCHA",
+      "cliCommandName": "captcha",
+      "cliCamelCaseName": "cAPTCHA",
+      "listEndpoint": "listCaptchaInstances",
+      "listPath": "/api/v1/captchas",
+      "listCliCommandName": "list",
+      "children": [],
+      "getEndpoint": "getOrgCaptchaSettings",
+      "getPath": "/api/v1/org/captcha",
+      "getCliCommandName": "get",
+      "requiresIDs": false
+    },
+    "DeviceAssurance": {
+      "idField": "id",
+      "tagName": "DeviceAssurance",
+      "cliCommandName": "device-assurance",
+      "cliCamelCaseName": "deviceAssurance",
+      "listEndpoint": "listDeviceAssurancePolicies",
+      "listPath": "/api/v1/device-assurances",
+      "listCliCommandName": "list",
+      "children": [],
+      "getEndpoint": "getDeviceAssurancePolicy",
+      "getPath": "/api/v1/device-assurances/{deviceAssuranceId}",
+      "getCliCommandName": "get",
+      "requiresIDs": false
+    },
+    "Device": {
+      "idField": "id",
+      "tagName": "Device",
+      "cliCommandName": "device",
+      "cliCamelCaseName": "device",
+      "listEndpoint": "listDeviceUsers",
+      "listPath": "/api/v1/devices/{deviceId}/users",
+      "listCliCommandName": "list",
+      "children": [
+        {
+          "resourceType": "Device",
+          "listMethod": "listDeviceUsers",
+          "parentParameter": "deviceId",
+          "listCliCommandName": "list"
+        }
+      ],
+      "getEndpoint": "getDevice",
+      "getPath": "/api/v1/devices/{deviceId}",
+      "getCliCommandName": "get",
+      "requiresIDs": true,
+      "dependsOn": [
+        "Device"
+      ]
+    },
+    "CustomDomain": {
+      "idField": "id",
+      "tagName": "CustomDomain",
+      "cliCommandName": "custom-domain",
+      "cliCamelCaseName": "customDomain",
+      "listEndpoint": "listCustomDomains",
+      "listPath": "/api/v1/domains",
+      "listCliCommandName": "list",
+      "children": [],
+      "getEndpoint": "getCustomDomain",
+      "getPath": "/api/v1/domains/{domainId}",
+      "getCliCommandName": "get",
+      "requiresIDs": false
+    },
+    "EmailDomain": {
+      "idField": "id",
+      "tagName": "EmailDomain",
+      "cliCommandName": "email-domain",
+      "cliCamelCaseName": "emailDomain",
+      "listEndpoint": "listEmailDomains",
+      "listPath": "/api/v1/email-domains",
+      "listCliCommandName": "list",
+      "children": [],
+      "getEndpoint": "getEmailDomain",
+      "getPath": "/api/v1/email-domains/{emailDomainId}",
+      "getCliCommandName": "get",
+      "requiresIDs": false
+    },
+    "EmailServer": {
+      "idField": "id",
+      "tagName": "EmailServer",
+      "cliCommandName": "email-server",
+      "cliCamelCaseName": "emailServer",
+      "listEndpoint": "listEmailServers",
+      "listPath": "/api/v1/email-servers",
+      "listCliCommandName": "list",
+      "children": [],
+      "getEndpoint": "getEmailServer",
+      "getPath": "/api/v1/email-servers/{emailServerId}",
+      "getCliCommandName": "get",
+      "requiresIDs": false
+    },
+    "EventHook": {
+      "idField": "id",
+      "tagName": "EventHook",
+      "cliCommandName": "event-hook",
+      "cliCamelCaseName": "eventHook",
+      "listEndpoint": "listEventHooks",
+      "listPath": "/api/v1/eventHooks",
+      "listCliCommandName": "list",
+      "children": [],
+      "getEndpoint": "getEventHook",
+      "getPath": "/api/v1/eventHooks/{eventHookId}",
+      "getCliCommandName": "get",
+      "requiresIDs": false
+    },
+    "Feature": {
+      "idField": "id",
+      "tagName": "Feature",
+      "cliCommandName": "feature",
+      "cliCamelCaseName": "feature",
+      "listEndpoint": "listFeatureDependents",
+      "listPath": "/api/v1/features/{featureId}/dependents",
+      "listCliCommandName": "list",
+      "children": [
+        {
+          "resourceType": "Feature",
+          "listMethod": "listFeatureDependencies",
+          "parentParameter": "featureId",
+          "listCliCommandName": "list"
+        }
+      ],
+      "getEndpoint": "getFeature",
+      "getPath": "/api/v1/features/{featureId}",
+      "getCliCommandName": "get",
+      "requiresIDs": true,
+      "dependsOn": [
+        "Feature"
+      ]
+    },
+    "ApplicationOktaApplicationSettings": {
+      "idField": "id",
+      "tagName": "ApplicationOktaApplicationSettings",
+      "cliCommandName": "application-okta-application-settings",
+      "cliCamelCaseName": "applicationOktaApplicationSettings",
+      "getEndpoint": "getFirstPartyAppSettings",
+      "getPath": "/api/v1/first-party-app-settings/{appName}",
+      "getCliCommandName": "get",
+      "children": [],
+      "requiresIDs": false
+    },
+    "Group": {
+      "idField": "id",
+      "tagName": "Group",
+      "cliCommandName": "group",
+      "cliCamelCaseName": "group",
+      "listEndpoint": "listGroupUsers",
+      "listPath": "/api/v1/groups/{groupId}/users",
+      "listCliCommandName": "list",
+      "children": [
+        {
+          "resourceType": "Group",
+          "listMethod": "listAssignedApplicationsForGroup",
+          "parentParameter": "groupId",
+          "listCliCommandName": "list"
+        },
+        {
+          "resourceType": "GroupOwner",
+          "listMethod": "listGroupOwners",
+          "parentParameter": "groupId",
+          "listCliCommandName": "list"
+        },
+        {
+          "resourceType": "RoleAssignment",
+          "listMethod": "listGroupAssignedRoles",
+          "parentParameter": "groupId",
+          "listCliCommandName": "list"
+        },
+        {
+          "resourceType": "RoleTarget",
+          "listMethod": "listApplicationTargetsForApplicationAdministratorRoleForGroup",
+          "parentParameter": "groupId",
+          "listCliCommandName": "list"
+        }
+      ],
+      "getEndpoint": "getGroup",
+      "getPath": "/api/v1/groups/{groupId}",
+      "getCliCommandName": "get",
+      "requiresIDs": true,
+      "dependsOn": [
+        "Group"
+      ]
+    },
+    "GroupOwner": {
+      "idField": "id",
+      "tagName": "GroupOwner",
+      "cliCommandName": "group-owner",
+      "cliCamelCaseName": "groupOwner",
+      "listEndpoint": "listGroupOwners",
+      "listPath": "/api/v1/groups/{groupId}/owners",
+      "listCliCommandName": "list",
+      "children": [],
+      "requiresIDs": true,
+      "dependsOn": [
+        "Group"
+      ]
+    },
+    "RoleAssignment": {
+      "idField": "id",
+      "tagName": "RoleAssignment",
+      "cliCommandName": "role-assignment",
+      "cliCamelCaseName": "roleAssignment",
+      "listEndpoint": "listAssignedRolesForUser",
+      "listPath": "/api/v1/users/{userId}/roles",
+      "listCliCommandName": "list",
+      "children": [],
+      "getEndpoint": "getUserAssignedRole",
+      "getPath": "/api/v1/users/{userId}/roles/{roleId}",
+      "getCliCommandName": "get",
+      "requiresIDs": true,
+      "dependsOn": [
+        "User"
+      ]
+    },
+    "RoleTarget": {
+      "idField": "id",
+      "tagName": "RoleTarget",
+      "cliCommandName": "role-target",
+      "cliCamelCaseName": "roleTarget",
+      "listEndpoint": "listGroupTargetsForRole",
+      "listPath": "/api/v1/users/{userId}/roles/{roleId}/targets/groups",
+      "listCliCommandName": "list",
+      "children": [],
+      "requiresIDs": true,
+      "dependsOn": [
+        "User",
+        "Role"
+      ]
+    },
+    "HookKey": {
+      "idField": "id",
+      "tagName": "HookKey",
+      "cliCommandName": "hook-key",
+      "cliCamelCaseName": "hookKey",
+      "listEndpoint": "listHookKeys",
+      "listPath": "/api/v1/hook-keys",
+      "listCliCommandName": "list",
+      "children": [],
+      "getEndpoint": "getHookKey",
+      "getPath": "/api/v1/hook-keys/{hookKeyId}",
+      "getCliCommandName": "get",
+      "requiresIDs": false
+    },
+    "ResourceSet": {
+      "idField": "id",
+      "tagName": "ResourceSet",
+      "cliCommandName": "resource-set",
+      "cliCamelCaseName": "resourceSet",
+      "listEndpoint": "listResourceSetResources",
+      "listPath": "/api/v1/iam/resource-sets/{resourceSetId}/resources",
+      "listCliCommandName": "list",
+      "children": [],
+      "getEndpoint": "getMemberOfBinding",
+      "getPath": "/api/v1/iam/resource-sets/{resourceSetId}/bindings/{roleIdOrLabel}/members/{memberId}",
+      "getCliCommandName": "get",
+      "requiresIDs": true,
+      "dependsOn": [
+        "ResourceSet"
+      ]
+    },
+    "Role": {
+      "idField": "id",
+      "tagName": "Role",
+      "cliCommandName": "role",
+      "cliCamelCaseName": "role",
+      "listEndpoint": "listRolePermissions",
+      "listPath": "/api/v1/iam/roles/{roleIdOrLabel}/permissions",
+      "listCliCommandName": "list",
+      "children": [
+        {
+          "resourceType": "Role",
+          "listMethod": "listRolePermissions",
+          "parentParameter": "roleIdOrLabel",
+          "listCliCommandName": "list"
+        },
+        {
+          "resourceType": "Subscription",
+          "listMethod": "listSubscriptionsRole",
+          "parentParameter": "roleRef",
+          "listCliCommandName": "list"
+        }
+      ],
+      "getEndpoint": "getRolePermission",
+      "getPath": "/api/v1/iam/roles/{roleIdOrLabel}/permissions/{permissionType}",
+      "getCliCommandName": "get",
+      "requiresIDs": true,
+      "dependsOn": []
+    },
+    "IdentitySource": {
+      "idField": "id",
+      "tagName": "IdentitySource",
+      "cliCommandName": "identity-source",
+      "cliCamelCaseName": "identitySource",
+      "listEndpoint": "listIdentitySourceSessions",
+      "listPath": "/api/v1/identity-sources/{identitySourceId}/sessions",
+      "listCliCommandName": "list",
+      "children": [],
+      "getEndpoint": "getIdentitySourceSession",
+      "getPath": "/api/v1/identity-sources/{identitySourceId}/sessions/{sessionId}",
+      "getCliCommandName": "get",
+      "requiresIDs": true,
+      "dependsOn": [
+        "IdentitySource"
+      ]
+    },
+    "IdentityProvider": {
+      "idField": "id",
+      "tagName": "IdentityProvider",
+      "cliCommandName": "identity-provider",
+      "cliCamelCaseName": "identityProvider",
+      "listEndpoint": "listSocialAuthTokens",
+      "listPath": "/api/v1/idps/{idpId}/users/{userId}/credentials/tokens",
+      "listCliCommandName": "list",
+      "children": [],
+      "getEndpoint": "getIdentityProviderApplicationUser",
+      "getPath": "/api/v1/idps/{idpId}/users/{userId}",
+      "getCliCommandName": "get",
+      "requiresIDs": true,
+      "dependsOn": [
+        "Idp",
+        "User"
+      ]
+    },
+    "InlineHook": {
+      "idField": "id",
+      "tagName": "InlineHook",
+      "cliCommandName": "inline-hook",
+      "cliCamelCaseName": "inlineHook",
+      "listEndpoint": "listInlineHooks",
+      "listPath": "/api/v1/inlineHooks",
+      "listCliCommandName": "list",
+      "children": [],
+      "getEndpoint": "getInlineHook",
+      "getPath": "/api/v1/inlineHooks/{inlineHookId}",
+      "getCliCommandName": "get",
+      "requiresIDs": false
+    },
+    "LogStream": {
+      "idField": "id",
+      "tagName": "LogStream",
+      "cliCommandName": "log-stream",
+      "cliCamelCaseName": "logStream",
+      "listEndpoint": "listLogStreams",
+      "listPath": "/api/v1/logStreams",
+      "listCliCommandName": "list",
+      "children": [],
+      "getEndpoint": "getLogStream",
+      "getPath": "/api/v1/logStreams/{logStreamId}",
+      "getCliCommandName": "get",
+      "requiresIDs": false
+    },
+    "SystemLog": {
+      "idField": "id",
+      "tagName": "SystemLog",
+      "cliCommandName": "system-log",
+      "cliCamelCaseName": "systemLog",
+      "listEndpoint": "listLogEvents",
+      "listPath": "/api/v1/logs",
+      "listCliCommandName": "list",
+      "children": [],
+      "requiresIDs": false
+    },
+    "ProfileMapping": {
+      "idField": "id",
+      "tagName": "ProfileMapping",
+      "cliCommandName": "profile-mapping",
+      "cliCamelCaseName": "profileMapping",
+      "listEndpoint": "listProfileMappings",
+      "listPath": "/api/v1/mappings",
+      "listCliCommandName": "list",
+      "children": [],
+      "getEndpoint": "getProfileMapping",
+      "getPath": "/api/v1/mappings/{mappingId}",
+      "getCliCommandName": "get",
+      "requiresIDs": false
+    },
+    "Schema": {
+      "idField": "id",
+      "tagName": "Schema",
+      "cliCommandName": "schema",
+      "cliCamelCaseName": "schema",
+      "getEndpoint": "getUserSchema",
+      "getPath": "/api/v1/meta/schemas/user/{schemaId}",
+      "getCliCommandName": "get",
+      "children": [],
+      "listEndpoint": "listLogStreamSchemas",
+      "listPath": "/api/v1/meta/schemas/logStream",
+      "listCliCommandName": "list",
+      "requiresIDs": false
+    },
+    "LinkedObject": {
+      "idField": "id",
+      "tagName": "LinkedObject",
+      "cliCommandName": "linked-object",
+      "cliCamelCaseName": "linkedObject",
+      "listEndpoint": "listLinkedObjectDefinitions",
+      "listPath": "/api/v1/meta/schemas/user/linkedObjects",
+      "listCliCommandName": "list",
+      "children": [],
+      "getEndpoint": "getLinkedObjectDefinition",
+      "getPath": "/api/v1/meta/schemas/user/linkedObjects/{linkedObjectName}",
+      "getCliCommandName": "get",
+      "requiresIDs": false
+    },
+    "UserType": {
+      "idField": "id",
+      "tagName": "UserType",
+      "cliCommandName": "user-type",
+      "cliCamelCaseName": "userType",
+      "listEndpoint": "listUserTypes",
+      "listPath": "/api/v1/meta/types/user",
+      "listCliCommandName": "list",
+      "children": [],
+      "getEndpoint": "getUserType",
+      "getPath": "/api/v1/meta/types/user/{typeId}",
+      "getCliCommandName": "get",
+      "requiresIDs": false
+    },
+    "UISchema": {
+      "idField": "id",
+      "tagName": "UISchema",
+      "cliCommandName": "uischema",
+      "cliCamelCaseName": "uISchema",
+      "listEndpoint": "listUISchemas",
+      "listPath": "/api/v1/meta/uischemas",
+      "listCliCommandName": "list",
+      "children": [],
+      "getEndpoint": "getUISchema",
+      "getPath": "/api/v1/meta/uischemas/{id}",
+      "getCliCommandName": "get",
+      "requiresIDs": false
+    },
+    "Policy": {
+      "idField": "id",
+      "tagName": "Policy",
+      "cliCommandName": "policy",
+      "cliCamelCaseName": "policy",
+      "listEndpoint": "listPolicyRules",
+      "listPath": "/api/v1/policies/{policyId}/rules",
+      "listCliCommandName": "list",
+      "children": [],
+      "getEndpoint": "getPolicyRule",
+      "getPath": "/api/v1/policies/{policyId}/rules/{ruleId}",
+      "getCliCommandName": "get",
+      "requiresIDs": true,
+      "dependsOn": [
+        "Policy"
+      ]
+    },
+    "PrincipalRateLimit": {
+      "idField": "id",
+      "tagName": "PrincipalRateLimit",
+      "cliCommandName": "principal-rate-limit",
+      "cliCamelCaseName": "principalRateLimit",
+      "listEndpoint": "listPrincipalRateLimitEntities",
+      "listPath": "/api/v1/principal-rate-limits",
+      "listCliCommandName": "list",
+      "children": [],
+      "getEndpoint": "getPrincipalRateLimitEntity",
+      "getPath": "/api/v1/principal-rate-limits/{principalRateLimitId}",
+      "getCliCommandName": "get",
+      "requiresIDs": false
+    },
+    "PushProvider": {
+      "idField": "id",
+      "tagName": "PushProvider",
+      "cliCommandName": "push-provider",
+      "cliCamelCaseName": "pushProvider",
+      "listEndpoint": "listPushProviders",
+      "listPath": "/api/v1/push-providers",
+      "listCliCommandName": "list",
+      "children": [],
+      "getEndpoint": "getPushProvider",
+      "getPath": "/api/v1/push-providers/{pushProviderId}",
+      "getCliCommandName": "get",
+      "requiresIDs": false
+    },
+    "RateLimitSettings": {
+      "idField": "id",
+      "tagName": "RateLimitSettings",
+      "cliCommandName": "rate-limit-settings",
+      "cliCamelCaseName": "rateLimitSettings",
+      "getEndpoint": "getWarningThreshold",
+      "getPath": "/api/v1/rate-limit-settings/warning-threshold",
+      "getCliCommandName": "get",
+      "children": [],
+      "requiresIDs": false
+    },
+    "RealmAssignment": {
+      "idField": "id",
+      "tagName": "RealmAssignment",
+      "cliCommandName": "realm-assignment",
+      "cliCamelCaseName": "realmAssignment",
+      "listEndpoint": "listRealmAssignmentOperations",
+      "listPath": "/api/v1/realm-assignments/operations",
+      "listCliCommandName": "list",
+      "children": [],
+      "getEndpoint": "getRealmAssignment",
+      "getPath": "/api/v1/realm-assignments/{assignmentId}",
+      "getCliCommandName": "get",
+      "requiresIDs": false
+    },
+    "Realm": {
+      "idField": "id",
+      "tagName": "Realm",
+      "cliCommandName": "realm",
+      "cliCamelCaseName": "realm",
+      "listEndpoint": "listRealms",
+      "listPath": "/api/v1/realms",
+      "listCliCommandName": "list",
+      "children": [],
+      "getEndpoint": "getRealm",
+      "getPath": "/api/v1/realms/{realmId}",
+      "getCliCommandName": "get",
+      "requiresIDs": false
+    },
+    "RiskProvider": {
+      "idField": "id",
+      "tagName": "RiskProvider",
+      "cliCommandName": "risk-provider",
+      "cliCamelCaseName": "riskProvider",
+      "listEndpoint": "listRiskProviders",
+      "listPath": "/api/v1/risk/providers",
+      "listCliCommandName": "list",
+      "children": [],
+      "getEndpoint": "getRiskProvider",
+      "getPath": "/api/v1/risk/providers/{riskProviderId}",
+      "getCliCommandName": "get",
+      "requiresIDs": false
+    },
+    "Subscription": {
+      "idField": "id",
+      "tagName": "Subscription",
+      "cliCommandName": "subscription",
+      "cliCamelCaseName": "subscription",
+      "listEndpoint": "listSubscriptionsUser",
+      "listPath": "/api/v1/users/{userId}/subscriptions",
+      "listCliCommandName": "list",
+      "children": [],
+      "getEndpoint": "getSubscriptionsNotificationTypeUser",
+      "getPath": "/api/v1/users/{userId}/subscriptions/{notificationType}",
+      "getCliCommandName": "get",
+      "requiresIDs": true,
+      "dependsOn": [
+        "User"
+      ]
+    },
+    "SSFReceiver": {
+      "idField": "id",
+      "tagName": "SSFReceiver",
+      "cliCommandName": "ssfreceiver",
+      "cliCamelCaseName": "sSFReceiver",
+      "listEndpoint": "listSecurityEventsProviderInstances",
+      "listPath": "/api/v1/security-events-providers",
+      "listCliCommandName": "list",
+      "children": [],
+      "getEndpoint": "getSecurityEventsProviderInstance",
+      "getPath": "/api/v1/security-events-providers/{securityEventProviderId}",
+      "getCliCommandName": "get",
+      "requiresIDs": false
+    },
+    "Session": {
+      "idField": "id",
+      "tagName": "Session",
+      "cliCommandName": "session",
+      "cliCamelCaseName": "session",
+      "getEndpoint": "getSession",
+      "getPath": "/api/v1/sessions/{sessionId}",
+      "getCliCommandName": "get",
+      "children": [],
+      "requiresIDs": false
+    },
+    "Template": {
+      "idField": "id",
+      "tagName": "Template",
+      "cliCommandName": "template",
+      "cliCamelCaseName": "template",
+      "listEndpoint": "listSmsTemplates",
+      "listPath": "/api/v1/templates/sms",
+      "listCliCommandName": "list",
+      "children": [],
+      "getEndpoint": "getSmsTemplate",
+      "getPath": "/api/v1/templates/sms/{templateId}",
+      "getCliCommandName": "get",
+      "requiresIDs": false
+    },
+    "ThreatInsight": {
+      "idField": "id",
+      "tagName": "ThreatInsight",
+      "cliCommandName": "threat-insight",
+      "cliCamelCaseName": "threatInsight",
+      "getEndpoint": "getCurrentConfiguration",
+      "getPath": "/api/v1/threats/configuration",
+      "getCliCommandName": "get",
+      "children": [],
+      "requiresIDs": false
+    },
+    "TrustedOrigin": {
+      "idField": "id",
+      "tagName": "TrustedOrigin",
+      "cliCommandName": "trusted-origin",
+      "cliCamelCaseName": "trustedOrigin",
+      "listEndpoint": "listTrustedOrigins",
+      "listPath": "/api/v1/trustedOrigins",
+      "listCliCommandName": "list",
+      "children": [],
+      "getEndpoint": "getTrustedOrigin",
+      "getPath": "/api/v1/trustedOrigins/{trustedOriginId}",
+      "getCliCommandName": "get",
+      "requiresIDs": false
+    },
+    "User": {
+      "idField": "id",
+      "tagName": "User",
+      "cliCommandName": "user",
+      "cliCamelCaseName": "user",
+      "listEndpoint": "listLinkedObjectsForUser",
+      "listPath": "/api/v1/users/{userId}/linkedObjects/{relationshipName}",
+      "listCliCommandName": "list",
+      "children": [
+        {
+          "resourceType": "User",
+          "listMethod": "listAppLinks",
+          "parentParameter": "userId",
+          "listCliCommandName": "list"
+        },
+        {
+          "resourceType": "UserFactor",
+          "listMethod": "listFactors",
+          "parentParameter": "userId",
+          "listCliCommandName": "list"
+        },
+        {
+          "resourceType": "RoleAssignment",
+          "listMethod": "listAssignedRolesForUser",
+          "parentParameter": "userId",
+          "listCliCommandName": "list"
+        },
+        {
+          "resourceType": "RoleTarget",
+          "listMethod": "listApplicationTargetsForApplicationAdministratorRoleForUser",
+          "parentParameter": "userId",
+          "listCliCommandName": "list"
+        },
+        {
+          "resourceType": "Subscription",
+          "listMethod": "listSubscriptionsUser",
+          "parentParameter": "userId",
+          "listCliCommandName": "list"
+        },
+        {
+          "resourceType": "WebAuthnPreregistration",
+          "listMethod": "listWebAuthnPreregistrationFactors",
+          "parentParameter": "userId",
+          "listCliCommandName": "list"
+        }
+      ],
+      "getEndpoint": "getUserGrant",
+      "getPath": "/api/v1/users/{userId}/grants/{grantId}",
+      "getCliCommandName": "get",
+      "requiresIDs": true,
+      "dependsOn": [
+        "User"
+      ]
+    },
+    "UserFactor": {
+      "idField": "id",
+      "tagName": "UserFactor",
+      "cliCommandName": "user-factor",
+      "cliCamelCaseName": "userFactor",
+      "listEndpoint": "listSupportedSecurityQuestions",
+      "listPath": "/api/v1/users/{userId}/factors/questions",
+      "listCliCommandName": "list",
+      "children": [],
+      "getEndpoint": "getFactorTransactionStatus",
+      "getPath": "/api/v1/users/{userId}/factors/{factorId}/transactions/{transactionId}",
+      "getCliCommandName": "get",
+      "requiresIDs": true,
+      "dependsOn": [
+        "User"
+      ]
+    },
+    "NetworkZone": {
+      "idField": "id",
+      "tagName": "NetworkZone",
+      "cliCommandName": "network-zone",
+      "cliCamelCaseName": "networkZone",
+      "listEndpoint": "listNetworkZones",
+      "listPath": "/api/v1/zones",
+      "listCliCommandName": "list",
+      "children": [],
+      "getEndpoint": "getNetworkZone",
+      "getPath": "/api/v1/zones/{zoneId}",
+      "getCliCommandName": "get",
+      "requiresIDs": false
+    },
+    "AttackProtection": {
+      "idField": "id",
+      "tagName": "AttackProtection",
+      "cliCommandName": "attack-protection",
+      "cliCamelCaseName": "attackProtection",
+      "getEndpoint": "getUserLockoutSettings",
+      "getPath": "/attack-protection/api/v1/user-lockout-settings",
+      "getCliCommandName": "get",
+      "children": [],
+      "requiresIDs": false
+    },
+    "ApiServiceIntegrations": {
+      "idField": "id",
+      "tagName": "ApiServiceIntegrations",
+      "cliCommandName": "api-service-integrations",
+      "cliCamelCaseName": "apiServiceIntegrations",
+      "listEndpoint": "listApiServiceIntegrationInstanceSecrets",
+      "listPath": "/integrations/api/v1/api-services/{apiServiceId}/credentials/secrets",
+      "listCliCommandName": "list",
+      "children": [],
+      "getEndpoint": "getApiServiceIntegrationInstance",
+      "getPath": "/integrations/api/v1/api-services/{apiServiceId}",
+      "getCliCommandName": "get",
+      "requiresIDs": true,
+      "dependsOn": [
+        "ApiService"
+      ]
+    },
+    "WebAuthnPreregistration": {
+      "idField": "id",
+      "tagName": "WebAuthnPreregistration",
+      "cliCommandName": "web-authn-preregistration",
+      "cliCamelCaseName": "webAuthnPreregistration",
+      "listEndpoint": "listWebAuthnPreregistrationFactors",
+      "listPath": "/webauthn-registration/api/v1/users/{userId}/enrollments",
+      "listCliCommandName": "list",
+      "children": [],
+      "requiresIDs": true,
+      "dependsOn": [
+        "User"
+      ]
+    }
+  }
+}
