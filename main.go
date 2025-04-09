@@ -1,12 +1,11 @@
 package main
 
 import (
-	"context"
+	"bufio"
 	"fmt"
 	"os"
 	"path/filepath"
 	"regexp"
-	"strings"
 	
 	"github.com/okta/okta-sdk-golang/v5/okta"
 	"github.com/spf13/cobra"
@@ -93,64 +92,64 @@ func PrepareOktaCliArgs(cfg *Config, args ...string) []string {
 	return args
 }
 
+// Regular expression for matching Okta developer domains in URLs or text
+var devOrgPattern = regexp.MustCompile(`(?i)(dev-\d+)\.okta\.com`)
+
 func LoadConfig(configPath string) (*Config, error) {
-	// The SDK will discover and load the configuration automatically
-	// If we specify a custom config path, we'll pass it to the CLI commands
-	sdkConfig, err := okta.NewConfiguration()
+	if configPath == "" {
+		configPath = DefaultConfigPath()
+	}
+
+	fmt.Printf("Using configuration from %s\n", configPath)
+	
+	if _, err := os.Stat(configPath); os.IsNotExist(err) {
+		return nil, fmt.Errorf("config file %s does not exist", configPath)
+	}
+	
+	domain, orgName, err := scanConfigForDevDomain(configPath)
 	if err != nil {
-		return nil, fmt.Errorf("error initializing Okta SDK: %w", err)
+		return nil, fmt.Errorf("error reading config file: %w", err)
 	}
 	
-	// If a custom config file was provided, display a message
-	if configPath != "" {
-		fmt.Printf("Using configuration from %s\n", configPath)
-	}
-	
-	client := okta.NewAPIClient(sdkConfig)
-	
-	// Extract domain from URL for validation
-	domain := extractDomainFromUrl(client.GetConfig().Okta.Client.OrgUrl)
-	
-	// Validate that this is a developer org
-	if !IsDeveloperOrg(domain) {
+	if domain == "" {
 		return nil, fmt.Errorf("this tool is only designed for Okta developer accounts (dev-*.okta.com)")
 	}
 	
 	config := &Config{
 		ConfigFilePath: configPath,
 		OktaDomain:     domain,
-		OrgName:        extractOrgName(domain),
-		Client:         client,
-	}
-	
-	// Validate that we can connect to the Okta API
-	ctx := context.Background()
-	_, resp, err := client.UserAPI.ListUsers(ctx).Limit(1).Execute()
-	if err != nil {
-		return nil, fmt.Errorf("failed to connect to Okta API: %w", err)
-	}
-	
-	if resp.StatusCode >= 400 {
-		return nil, fmt.Errorf("failed to connect to Okta API: status code %d", resp.StatusCode)
+		OrgName:        orgName,
 	}
 	
 	return config, nil
 }
 
-func IsDeveloperOrg(domain string) bool {
-	devPattern := regexp.MustCompile(`^dev-\d+\.okta\.com$`)
-	return devPattern.MatchString(domain)
-}
-
-func extractOrgName(domain string) string {
-	re := regexp.MustCompile(`^(dev-\d+)\.okta\.com$`)
-	matches := re.FindStringSubmatch(domain)
-	if len(matches) > 1 {
-		return matches[1]
+// scanConfigForDevDomain scans a config file to find an Okta developer domain
+// Returns the full domain and the org name (dev-XXXXX)
+func scanConfigForDevDomain(filePath string) (string, string, error) {
+	file, err := os.Open(filePath)
+	if err != nil {
+		return "", "", err
 	}
-	return domain
-}
+	defer file.Close()
 
-func extractDomainFromUrl(url string) string {
-	return strings.TrimPrefix(url, "https://")
+	scanner := bufio.NewScanner(file)
+	for scanner.Scan() {
+		line := scanner.Text()
+		
+		matches := devOrgPattern.FindStringSubmatch(line)
+		if len(matches) > 1 {
+			// matches[0] contains the full match, e.g., "dev-123456.okta.com"
+			// matches[1] contains the org name part, e.g., "dev-123456"
+			domain := matches[0]
+			orgName := matches[1]
+			return domain, orgName, nil
+		}
+	}
+	
+	if err := scanner.Err(); err != nil {
+		return "", "", err
+	}
+	
+	return "", "", nil
 }
