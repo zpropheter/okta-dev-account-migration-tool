@@ -127,4 +127,4 @@ google.golang.org/protobuf/runtime/protoimpl
 # gopkg.in/yaml.v3 v3.0.1
 ## explicit
 gopkg.in/yaml.v3
-# github.com/okta/okta-cli-client => ../cli-for-production/
+# github.com/okta/okta-cli-client => github.com/edunham/okta-cli-client v0.0.0-20250127201447-388c1aa70166
