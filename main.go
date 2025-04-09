@@ -12,7 +12,6 @@ import (
 	"github.com/spf13/cobra"
 )
 
-// Config holds the configuration for connecting to Okta
 type Config struct {
 	OktaDomain     string
 	ConfigFilePath string
@@ -26,7 +25,6 @@ var (
 	inputDir    string
 )
 
-// rootCmd represents the base command
 var rootCmd = &cobra.Command{
 	Use:   "envsync",
 	Short: "A tool for backing up and restoring Okta developer environments",
@@ -34,7 +32,6 @@ var rootCmd = &cobra.Command{
 It is only designed and tested for use with Okta developer accounts.`,
 }
 
-// backupCmd represents the backup command
 var backupCmd = &cobra.Command{
 	Use:   "backup",
 	Short: "Backup an Okta developer environment",
@@ -48,7 +45,6 @@ var backupCmd = &cobra.Command{
 	},
 }
 
-// restoreCmd represents the restore command
 var restoreCmd = &cobra.Command{
 	Use:   "restore",
 	Short: "Restore an Okta developer environment",
@@ -63,15 +59,12 @@ var restoreCmd = &cobra.Command{
 }
 
 func init() {
-	// Add commands to the root command
 	rootCmd.AddCommand(backupCmd)
 	rootCmd.AddCommand(restoreCmd)
 	
-	// Define flags for the backup command
 	backupCmd.Flags().StringVarP(&configFile, "config", "c", "", "Path to Okta config file")
 	backupCmd.Flags().StringVarP(&outputDir, "output", "o", "", "Directory to store backup files")
 	
-	// Define flags for the restore command
 	restoreCmd.Flags().StringVarP(&configFile, "config", "c", "", "Path to Okta config file")
 	restoreCmd.Flags().StringVarP(&inputDir, "input", "i", "", "Directory containing backup files")
 	restoreCmd.MarkFlagRequired("input")
@@ -92,23 +85,33 @@ func DefaultConfigPath() string {
 	return filepath.Join(home, ".okta", "okta.yaml")
 }
 
-func LoadConfig(configPath string) (*Config, error) {
-	// Create configuration options
-	options := []okta.ConfigSetter{}
-	
-	if configPath != "" {
-		fmt.Printf("Using configuration from %s\n", configPath)
+// PrepareOktaCliArgs prepares arguments for okta-cli-client with config flag if specified
+func PrepareOktaCliArgs(cfg *Config, args ...string) []string {
+	if cfg.ConfigFilePath != "" {
+		return append([]string{"--config", cfg.ConfigFilePath}, args...)
 	}
-	
-	sdkConfig, err := okta.NewConfiguration(options...)
+	return args
+}
+
+func LoadConfig(configPath string) (*Config, error) {
+	// The SDK will discover and load the configuration automatically
+	// If we specify a custom config path, we'll pass it to the CLI commands
+	sdkConfig, err := okta.NewConfiguration()
 	if err != nil {
 		return nil, fmt.Errorf("error initializing Okta SDK: %w", err)
 	}
 	
+	// If a custom config file was provided, display a message
+	if configPath != "" {
+		fmt.Printf("Using configuration from %s\n", configPath)
+	}
+	
 	client := okta.NewAPIClient(sdkConfig)
 	
+	// Extract domain from URL for validation
 	domain := extractDomainFromUrl(client.GetConfig().Okta.Client.OrgUrl)
 	
+	// Validate that this is a developer org
 	if !IsDeveloperOrg(domain) {
 		return nil, fmt.Errorf("this tool is only designed for Okta developer accounts (dev-*.okta.com)")
 	}
@@ -120,6 +123,7 @@ func LoadConfig(configPath string) (*Config, error) {
 		Client:         client,
 	}
 	
+	// Validate that we can connect to the Okta API
 	ctx := context.Background()
 	_, resp, err := client.UserAPI.ListUsers(ctx).Limit(1).Execute()
 	if err != nil {
@@ -149,11 +153,4 @@ func extractOrgName(domain string) string {
 
 func extractDomainFromUrl(url string) string {
 	return strings.TrimPrefix(url, "https://")
-}
-
-func PrepareOktaCliArgs(cfg *Config, args ...string) []string {
-    if cfg.ConfigFilePath != "" {
-        return append([]string{"--config", cfg.ConfigFilePath}, args...)
-    }
-    return args
 }
