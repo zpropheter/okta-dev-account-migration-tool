@@ -33,4 +33,4 @@ require (
 	gopkg.in/yaml.v3 v3.0.1 // indirect
 )
 
-replace github.com/okta/okta-cli-client => ../cli-for-production/
+replace github.com/okta/okta-cli-client => github.com/edunham/okta-cli-client v0.0.0-20250127201447-388c1aa70166

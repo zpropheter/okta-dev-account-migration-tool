@@ -72,7 +72,6 @@ type ResourceRestorer interface {
 
 var customRestorers = map[string]ResourceRestorer{
 	"applicationGroups": &ApplicationGroupsRestorer{},
-	// "directory": &ItemRestorer{},
 	"user":         &UserGroupsRestorer{},
 	"roleAssignment": &RoleAssignmentRestorer{},
 }
@@ -137,8 +136,8 @@ func (r *UserGroupsRestorer) Restore(cfg *Config, idMapping *IDMapping, inputDir
 					
 					fmt.Printf("Adding user %s to group %s...\n", newUserID, newGroupID)
 					
-					cmd := exec.Command("okta-cli-client", "group", "addUserToGroup", 
-						"--groupId", newGroupID, "--userId", newUserID)
+					cmd := exec.Command("okta-cli-client", PrepareOktaCliArgs(cfg, "group", "addUserToGroup", 
+						"--groupId", newGroupID, "--userId", newUserID)...)
 					
 					cmd.Stdout = os.Stdout
 					cmd.Stderr = os.Stderr
@@ -146,7 +145,6 @@ func (r *UserGroupsRestorer) Restore(cfg *Config, idMapping *IDMapping, inputDir
 					if err := cmd.Run(); err != nil {
 						fmt.Printf("Warning: failed to add user %s to group %s: %v\n", 
 							newUserID, newGroupID, err)
-						continue
 					}
 				}
 			}
@@ -211,8 +209,8 @@ func (r *RoleAssignmentRestorer) Restore(cfg *Config, idMapping *IDMapping, inpu
 					
 					fmt.Printf("Assigning role %s to user %s...\n", roleType, newUserID)
 					
-					cmd := exec.Command("okta-cli-client", "role", "assignRoleToUser", 
-						"--userId", newUserID, "--type", roleType)
+					cmd := exec.Command("okta-cli-client", PrepareOktaCliArgs(cfg, "role", "assignRoleToUser", 
+						"--userId", newUserID, "--type", roleType)...)
 					
 					cmd.Stdout = os.Stdout
 					cmd.Stderr = os.Stderr
@@ -220,7 +218,6 @@ func (r *RoleAssignmentRestorer) Restore(cfg *Config, idMapping *IDMapping, inpu
 					if err := cmd.Run(); err != nil {
 						fmt.Printf("Warning: failed to assign role %s to user %s: %v\n", 
 							roleType, newUserID, err)
-						continue
 					}
 				}
 			}
@@ -288,16 +285,16 @@ func (r *ApplicationGroupsRestorer) Restore(cfg *Config, idMapping *IDMapping, i
 			
 			fmt.Printf("Assigning group %s to application %s...\n", newGroupID, newAppID)
 			
-			cmd := exec.Command("okta-cli-client", "applicationGroups", "assignGroupToApplication", 
-				"--appId", newAppID, "--groupId", newGroupID, "--restore-from", filePath)
+			cmd := exec.Command("okta-cli-client", PrepareOktaCliArgs(cfg, "applicationGroups", "assignGroupToApplication", 
+				"--appId", newAppID, "--groupId", newGroupID, "--restore-from", filePath)...)
 			
 			cmd.Stdout = os.Stdout
 			cmd.Stderr = os.Stderr
 			
 			if err := cmd.Run(); err != nil {
 				fmt.Printf("Trying alternative assignment method...\n")
-				cmd = exec.Command("okta-cli-client", "applicationGroups", "assignGroupToApplication", 
-					"--appId", newAppID, "--groupId", newGroupID, "--data", "{}")
+				cmd = exec.Command("okta-cli-client", PrepareOktaCliArgs(cfg, "applicationGroups", "assignGroupToApplication", 
+					"--appId", newAppID, "--groupId", newGroupID, "--data", "{}")...)
 				
 				cmd.Stdout = os.Stdout
 				cmd.Stderr = os.Stderr
@@ -305,7 +302,6 @@ func (r *ApplicationGroupsRestorer) Restore(cfg *Config, idMapping *IDMapping, i
 				if err := cmd.Run(); err != nil {
 					fmt.Printf("Warning: failed to assign group %s to application %s: %v\n", 
 						newGroupID, newAppID, err)
-					continue
 				}
 			}
 		}
@@ -313,7 +309,6 @@ func (r *ApplicationGroupsRestorer) Restore(cfg *Config, idMapping *IDMapping, i
 	
 	return nil
 }
-
 
 func PerformRestore(cfg *Config, inputDir string) error {
 	idMapping := NewIDMapping(inputDir)
@@ -373,9 +368,8 @@ func restoreSingletonResources(cfg *Config, backupConfig *BackupConfig, inputDir
 			if !file.IsDir() && strings.HasSuffix(file.Name(), ".json") {
 				filePath := filepath.Join(resourceDir, file.Name())
 				
-				//should this be update?
-				cmd := exec.Command("okta-cli-client", resource.Name, "create", 
-					"--restore-from", filePath)
+				cmd := exec.Command("okta-cli-client", PrepareOktaCliArgs(cfg, resource.Name, "create", 
+					"--restore-from", filePath)...)
 				
 				cmd.Stdout = os.Stdout
 				cmd.Stderr = os.Stderr
@@ -383,7 +377,6 @@ func restoreSingletonResources(cfg *Config, backupConfig *BackupConfig, inputDir
 				if err := cmd.Run(); err != nil {
 					fmt.Printf("Warning: Failed to restore %s %s: %v\n", 
 						resource.Name, file.Name(), err)
-					continue
 				}
 			}
 		}
@@ -486,11 +479,11 @@ func restoreSecondPassResources(cfg *Config, backupConfig *BackupConfig, inputDi
 						var cmd *exec.Cmd
 						
 						if isAssignmentResource(resource.Name, resource.ListCommand) {
-							cmd = buildAssignmentCommand(resource.Name, sourceIDParam, newSourceID, filePath)
+							cmd = buildAssignmentCommand(cfg, resource.Name, sourceIDParam, newSourceID, filePath)
 						} else {
-							cmd = exec.Command("okta-cli-client", resource.Name, "create", 
+							cmd = exec.Command("okta-cli-client", PrepareOktaCliArgs(cfg, resource.Name, "create", 
 								fmt.Sprintf("--%s", sourceIDParam), newSourceID, 
-								"--restore-from", filePath)
+								"--restore-from", filePath)...)
 						}
 						
 						if cmd == nil {
@@ -505,7 +498,6 @@ func restoreSecondPassResources(cfg *Config, backupConfig *BackupConfig, inputDi
 						if err := cmd.Run(); err != nil {
 							fmt.Printf("Warning: Failed to restore %s for %s %s: %v\n", 
 								resource.Name, resource.SourceIDDir, newSourceID, err)
-							continue
 						}
 					}
 				}
@@ -536,26 +528,26 @@ func isAssignmentResource(resourceName, listCommand string) bool {
 	return false
 }
 
-func buildAssignmentCommand(resourceName, sourceIDParam, sourceID, filePath string) *exec.Cmd {
+func buildAssignmentCommand(cfg *Config, resourceName, sourceIDParam, sourceID, filePath string) *exec.Cmd {
 	switch resourceName {
 	case "user":
 		if sourceIDParam == "userId" {
-			return exec.Command("okta-cli-client", "group", "addUserToGroup", 
+			return exec.Command("okta-cli-client", PrepareOktaCliArgs(cfg, "group", "addUserToGroup", 
 				"--userId", sourceID, "--groupId", "TARGET_GROUP_ID", 
-				"--assignment-file", filePath)
+				"--assignment-file", filePath)...)
 		}
 	case "group":
 		if sourceIDParam == "groupId" {
-			return exec.Command("okta-cli-client", "user", "addUserToGroup", 
+			return exec.Command("okta-cli-client", PrepareOktaCliArgs(cfg, "user", "addUserToGroup", 
 				"--groupId", sourceID, "--userId", "TARGET_USER_ID",
-				"--assignment-file", filePath)
+				"--assignment-file", filePath)...)
 		}
 	}
 	return nil
 }
 
 func restoreResource(cfg *Config, resourceType string, filePath string) (string, error) {
-	cmd := exec.Command("okta-cli-client", resourceType, "create", "--restore-from", filePath)
+	cmd := exec.Command("okta-cli-client", PrepareOktaCliArgs(cfg, resourceType, "create", "--restore-from", filePath)...)
 	
 	stdout, err := cmd.StdoutPipe()
 	if err != nil {

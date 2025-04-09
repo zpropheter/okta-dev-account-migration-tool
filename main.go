@@ -84,7 +84,6 @@ func main() {
 	}
 }
 
-// DefaultConfigPath returns the default Okta config file path
 func DefaultConfigPath() string {
 	home, err := os.UserHomeDir()
 	if err != nil {
@@ -93,21 +92,14 @@ func DefaultConfigPath() string {
 	return filepath.Join(home, ".okta", "okta.yaml")
 }
 
-// LoadConfig loads an Okta configuration and initializes the SDK client
 func LoadConfig(configPath string) (*Config, error) {
 	// Create configuration options
 	options := []okta.ConfigSetter{}
 	
-	// If a specific config file was provided, add it to the options
-	// Note: SDK doesn't directly support custom file paths, but we can handle
-	// this in a future enhancement if needed
 	if configPath != "" {
 		fmt.Printf("Using configuration from %s\n", configPath)
-		// We could parse the file here and add specific options, but for now
-		// we'll let the SDK handle discovery based on its normal paths
 	}
 	
-	// Let the SDK discover and load the configuration
 	sdkConfig, err := okta.NewConfiguration(options...)
 	if err != nil {
 		return nil, fmt.Errorf("error initializing Okta SDK: %w", err)
@@ -115,15 +107,12 @@ func LoadConfig(configPath string) (*Config, error) {
 	
 	client := okta.NewAPIClient(sdkConfig)
 	
-	// Extract domain from URL for validation
 	domain := extractDomainFromUrl(client.GetConfig().Okta.Client.OrgUrl)
 	
-	// Validate that this is a developer org
 	if !IsDeveloperOrg(domain) {
 		return nil, fmt.Errorf("this tool is only designed for Okta developer accounts (dev-*.okta.com)")
 	}
 	
-	// Create our own Config object
 	config := &Config{
 		ConfigFilePath: configPath,
 		OktaDomain:     domain,
@@ -131,7 +120,6 @@ func LoadConfig(configPath string) (*Config, error) {
 		Client:         client,
 	}
 	
-	// Validate that we can connect to the Okta API
 	ctx := context.Background()
 	_, resp, err := client.UserAPI.ListUsers(ctx).Limit(1).Execute()
 	if err != nil {
@@ -145,16 +133,12 @@ func LoadConfig(configPath string) (*Config, error) {
 	return config, nil
 }
 
-// IsDeveloperOrg checks if the given domain is an Okta developer org
 func IsDeveloperOrg(domain string) bool {
-	// Match domains like dev-123456.okta.com
 	devPattern := regexp.MustCompile(`^dev-\d+\.okta\.com$`)
 	return devPattern.MatchString(domain)
 }
 
-// extractOrgName extracts the org name from a domain
 func extractOrgName(domain string) string {
-	// For a domain like dev-123456.okta.com, return dev-123456
 	re := regexp.MustCompile(`^(dev-\d+)\.okta\.com$`)
 	matches := re.FindStringSubmatch(domain)
 	if len(matches) > 1 {
@@ -163,7 +147,13 @@ func extractOrgName(domain string) string {
 	return domain
 }
 
-// Helper function to extract domain from a URL
 func extractDomainFromUrl(url string) string {
 	return strings.TrimPrefix(url, "https://")
+}
+
+func PrepareOktaCliArgs(cfg *Config, args ...string) []string {
+    if cfg.ConfigFilePath != "" {
+        return append([]string{"--config", cfg.ConfigFilePath}, args...)
+    }
+    return args
 }
