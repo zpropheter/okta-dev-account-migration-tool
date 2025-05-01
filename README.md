@@ -1,6 +1,6 @@
 # envsync 
 
-> ⚠️ Envsync is currently in ALPHA. Beta release is on track for early May 2025. 
+> ⚠️ Envsync is currently in BETA. Let us know about any bugs by filing a GitHub issue! 
 
 This tool helps you back up and restore configuration from Okta developer accounts. 
 It extends the [Okta CLI Client](https://github.com/okta/okta-cli-client) to handle batch operations on all supported API endpoints which may have data to back up. 
