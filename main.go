@@ -92,8 +92,7 @@ func PrepareOktaCliArgs(cfg *Config, args ...string) []string {
 	return args
 }
 
-// Regular expression for matching Okta developer domains in URLs or text
-var devOrgPattern = regexp.MustCompile(`(?i)(dev-\d+)\.okta\.com`)
+var devOrgPattern = regexp.MustCompile(`(?i)(dev-\d+)\.okta`)
 
 func LoadConfig(configPath string) (*Config, error) {
 	if configPath == "" {
@@ -112,7 +111,7 @@ func LoadConfig(configPath string) (*Config, error) {
 	}
 	
 	if domain == "" {
-		return nil, fmt.Errorf("this tool is only designed for Okta developer accounts (dev-*.okta.com)")
+		return nil, fmt.Errorf("this tool is only designed for Okta developer accounts (dev-*.okta)")
 	}
 	
 	config := &Config{
