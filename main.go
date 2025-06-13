@@ -92,7 +92,7 @@ func PrepareOktaCliArgs(cfg *Config, args ...string) []string {
 	return args
 }
 
-var devOrgPattern = regexp.MustCompile(`(?i)(dev-\d+)\.okta`)
+var devOrgPattern = regexp.MustCompile(`\b(trial-\d+)(?:\.okta\.com)?\b`)
 
 func LoadConfig(configPath string) (*Config, error) {
 	if configPath == "" {
